@@ -1,0 +1,5 @@
+.product-image {
+    max-width: auto; /* Asegura que la imagen no se estire más allá de su tamaño original */
+    height: 100%; /* Permite que la altura se ajuste automáticamente manteniendo la proporción original */
+    width: auto; 
+  }

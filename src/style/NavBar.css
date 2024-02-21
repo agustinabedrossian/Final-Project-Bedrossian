@@ -1,0 +1,17 @@
+ul.navbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 0.5%;
+}
+
+.menu-header{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3%;
+    padding-left: 2%;
+}
+
+.menu-title {
+    padding-left: 2%;
+    width: 120%;
+}
