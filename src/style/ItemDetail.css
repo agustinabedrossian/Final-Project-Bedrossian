@@ -1,0 +1,9 @@
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+}

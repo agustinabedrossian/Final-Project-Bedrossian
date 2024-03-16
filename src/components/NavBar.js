@@ -13,9 +13,10 @@ function NavBar() {
 					<h1 className="title menu-title">ModaExpress</h1>
 					<h2 className="subtitle">Renova tu vestidor <GiClothes /> </h2>
 					</Link>
-					
 				</div>
-				<CartWidget />
+				<Link to="/cart">
+					<CartWidget />
+				</Link>
 			</div>
 			<aside className="menu hero-body">
 				<ul className="navbar">

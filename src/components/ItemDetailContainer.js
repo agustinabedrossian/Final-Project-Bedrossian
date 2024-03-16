@@ -1,28 +1,44 @@
 import { useParams } from "react-router-dom";
-import { getProductById } from "../data/products";
 import {useState, useEffect} from "react"
 import NavBar from "./NavBar";
-import Card from "./Card";
 import "../style/ItemDetailContainer.css";
+import ItemDetail from "./ItemDetail";
+import {db} from "../config/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 function ItemDetailContainer () {
     
     const {itemId} = useParams();
     const [product, setProduct] = useState({});
+    const itemsCollectionRef = collection(db, "products")
+
+
+    const getItem = async () => {
+        const data = await getDocs(itemsCollectionRef);
+        
+        const filteredData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id
+        }));
+      
+        const item = filteredData.find((doc) => doc.id === itemId);
+
+        setProduct(item);
+
+        return product;
+    }
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            setProduct(await getProductById(itemId));
-        };
-
-        fetchData();
+       
+        getItem();
     }, [itemId]);
 
     return (
         <div className="item-detail-container">
   <NavBar className="navbar-detail-container" />
   <div className="item-detail-card-container">
-    <Card product={product} />
+  <ItemDetail product={product}/>
   </div>
 </div>
     )

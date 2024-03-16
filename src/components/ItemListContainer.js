@@ -1,31 +1,37 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getAllProducts, getProductsByCategory } from "../data/products";
 import Card from "./Card";
 import "../style/ItemListContainer.css"
 import NavBar from "./NavBar";
+import {db} from "../config/firebase";
+import {collection, getDocs} from "firebase/firestore";
 
 
 function ItemListContainer() {
 
+    const itemsCollectionRef = collection(db, "products")
     const { categoryId } = useParams();
-    const [products, setProducts] = useState([]);
+    const  [itemList, setItemList] = useState([]);
+  
+    const getItemList = async () => {
+      const data = await getDocs(itemsCollectionRef);
+      
+      let filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id
+      }));
+
+      if(categoryId!=null){
+        filteredData = filteredData.filter((doc) => doc.category === categoryId)
+    }
+  
+      setItemList(filteredData);
+    }
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            let itemsList;
-
-            if (categoryId) {
-                console.log(categoryId);
-                itemsList = await getProductsByCategory(categoryId);
-            } else {
-                itemsList = await getAllProducts();
-            }
-
-            setProducts(itemsList);
-        };
-
-        fetchData();
+        
+        getItemList();
     }, [categoryId]);
 
 
@@ -35,9 +41,9 @@ function ItemListContainer() {
             <NavBar />
             <div className="products-container">
                 {
-                    products.map((product) => {
+                    itemList.map((item) => {
                         return (
-                            <Card product={product} />
+                            <Card product={item} />
                         )
                     })
                 }

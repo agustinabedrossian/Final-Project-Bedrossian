@@ -1,0 +1,7 @@
+.card-totals {
+    display: flex;
+}
+
+.cart-total-item {
+    margin-top: 3%;
+}
